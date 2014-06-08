@@ -89,10 +89,12 @@ module SSHKit
       return yield unless environment_hash.any?
       command = yield
       env = '/usr/bin/env'
+      env_user = options[:user]
+      prefix = "[ -e /mnt/envs/#{env_user} ] && . /mnt/envs/#{env_user};"
       if command.match env
-        command.sub env, ". /mnt/envs/#{@user}; \\0 #{environment_string}"
+        command.sub env, "#{prefix} \\0 #{environment_string}"
       else
-        "( . /mnt/envs/#{@user}; #{environment_string} #{command} )"
+        "( #{prefix} #{environment_string} #{command} )"
       end
     end
   end
