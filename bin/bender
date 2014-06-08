@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require_relative '../lib/bender/cli'
+
+Bender::Cli.start ARGV

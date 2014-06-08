@@ -4,7 +4,7 @@
 
 require 'logging'
 def logger
-  @@logger ||= begin
+  @logger ||= begin
 
     Logging.color_scheme( 'bright',
       date: :blue,
@@ -90,9 +90,9 @@ module SSHKit
       command = yield
       env = '/usr/bin/env'
       if command.match env
-        command.sub env, ". /mnt/envs/#{@user}; \\0 #{ environment_string }"
+        command.sub env, ". /mnt/envs/#{@user}; \\0 #{environment_string}"
       else
-        "( /mnt/envs/#{@user}; #{environment_string} #{ command } )"
+        "( . /mnt/envs/#{@user}; #{environment_string} #{command} )"
       end
     end
   end
