@@ -89,7 +89,7 @@ namespace :deploy do
       as fetch(:application) do
         within fetch(:deploy_to) do
 
-          execute :ruby, '-e', %{'File.write :DEPLOYED_AT.to_s, Time.now'}
+          execute :ruby, '-e', %{"File.write :DEPLOYED_AT.to_s, Time.now"}
         end
       end
     end
