@@ -8,9 +8,9 @@ module Bender
 
     def generate(appname)
       template 'templates/app/Capfile', "#{appname}/Capfile"
-      template 'templates/app/deploy.rb', "#{appname}/deploy.rb"
-      template 'templates/app/deploy/stage.rb', "#{appname}/deploy/staging.rb"
-      template 'templates/app/deploy/stage.rb', "#{appname}/deploy/production.rb"
+      template 'templates/app/config/deploy.rb', "#{appname}/config/deploy.rb"
+      template 'templates/app/config/deploy/stage.rb', "#{appname}/config/deploy/staging.rb"
+      template 'templates/app/config/deploy/stage.rb', "#{appname}/config/deploy/production.rb"
     end
 
     def self.source_root
