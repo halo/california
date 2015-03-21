@@ -1,5 +1,7 @@
 ## Bender - Capistrano 3 for dummies
 
+[![Join the chat at https://gitter.im/halo/bender](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/halo/bender?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ![screenshot](https://raw.github.com/halo/bender/master/doc/bender.png)
 
 ### Requirements
