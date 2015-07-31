@@ -3,48 +3,61 @@
 # set :log_level, :info
 
 require 'logging'
-def logger
-  @logger ||= begin
 
-    Logging.color_scheme( 'bright',
-      date: :blue,
-      logger: :magenta,
-      message: :white
-    )
+module BenderLogger
+  def self.logger
+    @@logger ||= begin
 
-    layout = Logging.layouts.pattern pattern: '      ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ \n %-4c %m\n      ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n', color_scheme: 'bright'
+      Logging.color_scheme( 'bright',
+        date: :blue,
+        logger: :magenta,
+        message: :white
+      )
 
-    Logging.appenders.stdout( 'stdout',
-      auto_flushing: true,
-      layout: layout
-    )
+      layout = Logging.layouts.pattern pattern: '▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ \n%m\n▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n', color_scheme: 'bright'
 
-    result = Logging.logger['CAP']
-    result.add_appenders 'stdout'
-    result.level = fetch(:log_level)
-    result
-  end
-end
+      Logging.appenders.stdout( 'stdout',
+        auto_flushing: true,
+        layout: layout
+      )
 
-# Exception handling Inspired by https://github.com/thoughtbot/airbrake/blob/master/lib/airbrake/rake_handler.rb
-module RakeExceptionChatter
-  def self.included(klass)
-    klass.class_eval do
-      alias_method :display_error_message_without_chat, :display_error_message
-      alias_method :display_error_message, :display_error_message_with_chat
+      result = Logging.logger['CAP']
+      result.add_appenders 'stdout'
+      result.level = fetch(:log_level)
+      result
     end
   end
-
-  def display_error_message_with_chat(exception)
-    puts
-    display_error_message_without_chat(exception)
-    puts
-  end
 end
 
-Rake.application.instance_eval do
-  class << self
-    include RakeExceptionChatter
+def logger
+  BenderLogger.logger
+end
+
+ENV['SSHKIT_COLOR'] = 'true'
+
+class SSHKit::Formatter::Pretty
+  def prefix(command)
+    %{ #{c.green(command.uuid)}  #{c.blue(command.host.to_s.ljust(15))}}
+  end
+
+  def write_command(command)
+    unless command.started?
+      original_output << %{#{prefix(command)} #{c.yellow(c.bold(command.to_command))}\n}
+    end
+
+    unless command.stdout.empty?
+      command.stdout.lines.each do |line|
+        original_output << %{#{prefix(command)} #{line}}
+        original_output << "\n" unless line[-1] == "\n"
+      end
+    end
+
+    unless command.stderr.empty?
+      command.stderr.lines.each do |line|
+        original_output << %{#{prefix(command)} #{line}}
+        original_output << "\n" unless line[-1] == "\n"
+      end
+    end
   end
 end
 
@@ -82,19 +95,18 @@ if fetch(:rack_env).to_s.downcase == 'production' && fetch(:branch).to_s.downcas
 end
 
 # What would life be without monkey patches...
-# See https://github.com/capistrano/sshkit/issues/35
 module SSHKit
   class Command
-    def with(&block)
-      return yield unless environment_hash.any?
-      command = yield
-      env = '/usr/bin/env'
-      env_user = options[:user]
-      prefix = "[ -e /mnt/envs/#{env_user} ] && . /mnt/envs/#{env_user};"
-      if command.match env
-        command.sub env, "#{prefix} \\0 #{environment_string}"
-      else
-        "( #{prefix} #{environment_string} #{command} )"
+    def user(&block)
+      return yield unless options[:user]
+      %(sudo -u #{options[:user]} #{environment_string} -- bash -c 'export HOME=/mnt/apps/#{options[:user]}; export PATH="$HOME/bin:$PATH"; source $HOME/.bash_profile; #{yield.to_s.gsub("'", %q{'"'"'})}')
+    end
+  end
+
+  class CommandMap
+    def defaults
+      Hash.new do |hash, command|
+        hash[command] = command.to_s
       end
     end
   end
