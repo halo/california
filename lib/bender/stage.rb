@@ -79,6 +79,8 @@ fetch(:default_env).merge! rack_env: fetch(:rack_env)
 
 # Unlike "normal" capistrano, we deploy right into the repository.
 set :deploy_to, "/mnt/apps/#{fetch(:application)}/repository"
+# Alias for cap task that use release_path
+set :release_path, -> { fetch(:deploy_to) }
 
 # The branch can be set in various ways, default is master.
 set :branch, ENV['branch'] || ENV['BRANCH'] || fetch(:branch, :master)
