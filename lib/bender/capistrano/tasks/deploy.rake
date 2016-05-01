@@ -19,7 +19,7 @@ namespace :deploy do
   task :updating do
     logger.info '<DEPLOY> <UPDATING> Updating the repository...'
 
-    on roles :app do |host|
+    on roles :app do
       as fetch(:application) do
         within fetch(:deploy_to) do
 
@@ -35,9 +35,9 @@ namespace :deploy do
           # The update went well so let's persist the revision change.
           # Note: We use ruby because there is no bash command that can write to files *without I/O redirection*.
           set :current_revision, capture(:git, 'rev-parse', 'HEAD')
-          execute :ruby, '-e', %{"File.write :REVISION.to_s,      %|#{fetch(:current_revision)}|"  }
-          execute :ruby, '-e', %{"File.write :PREV_REVISION.to_s, %|#{fetch(:previous_revision)}|" }
-          execute :ruby, '-e', %{"File.write :BRANCH.to_s,        %|#{fetch(:branch)}|"            }
+          execute :ruby, '-e', %("File.write :REVISION.to_s,      %|#{fetch(:current_revision)}|"  )
+          execute :ruby, '-e', %("File.write :PREV_REVISION.to_s, %|#{fetch(:previous_revision)}|" )
+          execute :ruby, '-e', %("File.write :BRANCH.to_s,        %|#{fetch(:branch)}|"            )
         end
       end
     end
@@ -51,10 +51,10 @@ namespace :deploy do
   task :disallow_robots do
     next if fetch(:stage) == :production
 
-    on roles :app do |host|
+    on roles :app do
       as fetch(:application) do
         within File.join(fetch(:deploy_to), 'public') do
-          execute :echo, %{"User-agent: *\nDisallow: /\n" > robots.txt}
+          execute :echo, %("User-agent: *\nDisallow: /\n" > robots.txt)
         end
       end
     end
@@ -67,7 +67,7 @@ namespace :deploy do
   task :updated do
     logger.info '<DEPLOY> <UPDATED> Running Bundler...'
 
-    on roles :app do |host|
+    on roles :app do
       as fetch(:application) do
         within fetch(:deploy_to) do
 
@@ -85,7 +85,7 @@ namespace :deploy do
   task :publishing do
     logger.info '<DEPLOY> <PUBLISHING> Restarting the app...'
 
-    on roles :app do |host|
+    on roles :app do
       as fetch(:application) do
         within File.join(fetch(:deploy_to), 'tmp') do
 
@@ -102,11 +102,11 @@ namespace :deploy do
   task :finishing do
     logger.info '<DEPLOY> <FINISHING> Persisting the deploy time...'
 
-    on roles :app do |host|
+    on roles :app do
       as fetch(:application) do
         within fetch(:deploy_to) do
 
-          execute :ruby, '-e', %{"File.write :DEPLOYED_AT.to_s, Time.now"}
+          execute :ruby, '-e', %("File.write :DEPLOYED_AT.to_s, Time.now")
         end
       end
     end
