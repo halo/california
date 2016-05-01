@@ -54,4 +54,4 @@ bundle exec cap production deploy migrate=true
 
 ### Copyright
 
-MIT 2014 halo. See [MIT-LICENSE](http://github.com/halo/bender/blob/master/MIT-LICENSE).
+MIT 2016 halo. See [MIT-LICENSE](http://github.com/halo/bender/blob/master/MIT-LICENSE).
