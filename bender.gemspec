@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.version     = Bender::VERSION
   spec.date        = '2015-07-31'
   spec.summary     = 'Capistrano 3 for dummies.'
-  spec.description = "See https://github.com/halo/bender"
+  spec.description = 'See https://github.com/halo/bender'
   spec.authors     = %w{ halo }
   spec.homepage    = 'https://github.com/halo/bender'
 
