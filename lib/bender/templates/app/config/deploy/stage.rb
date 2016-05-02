@@ -14,4 +14,3 @@ load 'bender/stage.rb'
 #   port: 12345,
 #   keys: Pathname.new('~/.ssh/mykey').expand_path.to_s,
 # }
-
