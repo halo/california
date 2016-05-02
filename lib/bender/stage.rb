@@ -31,27 +31,31 @@ end
 
 ENV['SSHKIT_COLOR'] = 'true'
 
-class SSHKit::Formatter::Pretty
-  def prefix(command)
-    %(#{c.green(command.uuid)}  #{c.blue(command.host.to_s.ljust(15))})
-  end
-
-  def write_command(command)
-    unless command.started?
-      original_output << %(#{prefix(command)} #{c.yellow(c.bold(command.to_command))}\n)
-    end
-
-    unless command.stdout.empty?
-      command.stdout.lines.each do |line|
-        original_output << %(#{prefix(command)} #{line})
-        original_output << "\n" unless line[-1] == "\n"
+module SSHKit
+  module Formatter
+    class Pretty
+      def prefix(command)
+        %(#{c.green(command.uuid)}  #{c.blue(command.host.to_s.ljust(15))})
       end
-    end
 
-    unless command.stderr.empty?
-      command.stderr.lines.each do |line|
-        original_output << %(#{prefix(command)} #{line})
-        original_output << "\n" unless line[-1] == "\n"
+      def write_command(command) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+        unless command.started?
+          original_output << %(#{prefix(command)} #{c.yellow(c.bold(command.to_command))}\n)
+        end
+
+        unless command.stdout.empty?
+          command.stdout.lines.each do |line|
+            original_output << %(#{prefix(command)} #{line})
+            original_output << "\n" unless line[-1] == "\n"
+          end
+        end
+
+        unless command.stderr.empty?
+          command.stderr.lines.each do |line|
+            original_output << %(#{prefix(command)} #{line})
+            original_output << "\n" unless line[-1] == "\n"
+          end
+        end
       end
     end
   end
