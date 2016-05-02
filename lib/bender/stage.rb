@@ -90,7 +90,15 @@ set :branch, ENV['branch'] || ENV['BRANCH'] || fetch(:branch, :master)
 set :migrate, ENV['migrate'] || ENV['MIGRATE'] || fetch(:migrate, false)
 
 # Branch sanity check
-if fetch(:rack_env).to_s.downcase == 'production' && fetch(:branch).to_s.downcase != 'master' && ENV['i_dont_know_what_im_doing'] != 'true'
+def insane?
+  rack_env = fetch(:rack_env).to_s.downcase
+  branch = fetch(:branch).to_s.downcase
+  insane = ENV['i_dont_know_what_im_doing']
+
+  rack_env == 'production' && branch != 'master' && insane != 'true'
+end
+
+if insane?
   message = "You are courageous, trying to deploy the branch #{fetch(:branch).inspect} to production.\n"
   message += "If you know what you're doing you can bypass this warning \
     by adding this to your cap command: i_dont_know_what_im_doing=true"
@@ -102,7 +110,16 @@ module SSHKit
   class Command
     def user
       return yield unless options[:user]
-      %(sudo -u #{options[:user]} #{environment_string} -- bash -c 'export HOME=/mnt/apps/#{options[:user]}; export PATH="$HOME/bin:$PATH"; source $HOME/.bash_profile; #{yield.to_s.gsub("'", %q('"'"'))}')
+
+      bash_command = [
+        "export HOME=/mnt/apps/#{options[:user]}; ",
+        'export PATH="$HOME/bin:$PATH"; ',
+        'source $HOME/.bash_profile; ',
+        'source $HOME/.bash_profile; ',
+        yield.to_s.gsub("'", %q('"'"')),
+      ].join('')
+
+      %(sudo -u #{options[:user]} #{environment_string} -- bash -c '#{bash_command}')
     end
   end
 
