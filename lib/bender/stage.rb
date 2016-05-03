@@ -112,12 +112,12 @@ module SSHKit
       return yield unless options[:user]
 
       bash_command = [
-        "export HOME=/mnt/apps/#{options[:user]}; ",
-        'export PATH="$HOME/bin:$PATH"; ',
-        'source $HOME/.bash_profile; ',
-        'source $HOME/.bash_profile; ',
+        "export HOME=/mnt/apps/#{options[:user]};",
+        'export PATH="$HOME/bin:$PATH";',
+        'source $HOME/.bash_profile;',
+        'source $HOME/.bash_profile;',
         yield.to_s.gsub("'", %q('"'"')),
-      ].join('')
+      ].join(' ')
 
       %(sudo -u #{options[:user]} #{environment_string} -- bash -c '#{bash_command}')
     end
