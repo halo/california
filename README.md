@@ -1,5 +1,7 @@
 ## Bender - Capistrano 3 for dummies
 
+[![Build Status](https://travis-ci.org/halo/bender.svg?branch=master)](https://travis-ci.com/halo/bender)
+
 ![screenshot](https://raw.github.com/halo/bender/master/doc/bender.png)
 
 ### Requirements
