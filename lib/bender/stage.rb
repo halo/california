@@ -21,7 +21,7 @@ module BenderLogger
   end
 
   def self.pattern
-    ['▬' * 72, ' \n%m\n', '▬' * 72, '\n']
+    ['▬' * 72, ' \n%m\n', '▬' * 72, '\n'].join
   end
 end
 
