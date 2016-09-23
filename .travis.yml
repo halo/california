@@ -1,0 +1,12 @@
+language: ruby
+rvm:
+  - 2.2.0
+
+sudo: false
+cache: bundler
+
+install: bundle install
+
+script:
+#  - bundle exec rspec
+  - bundle exec rubocop
