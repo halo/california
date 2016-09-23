@@ -4,20 +4,12 @@
 
 namespace :deploy do
 
-  # –––––––––––––
-  # Notifications
-  # –––––––––––––
-
-  task :starting do
-    logger.info '<DEPLOY> <STARTING> Starting notifications...'
-  end
-
   # –––––––––––––––––
   # Updating the code
   # –––––––––––––––––
 
   task :updating do
-    logger.info '<DEPLOY> <UPDATING> Updating the repository...'
+    logger.info 'Updating the repository...'
 
     on roles :app do
       as fetch(:application) do
@@ -65,7 +57,7 @@ namespace :deploy do
   # –––––––––––––––
 
   task :updated do
-    logger.info '<DEPLOY> <UPDATED> Running Bundler...'
+    logger.info 'Running Bundler...'
 
     on roles :app do
       as fetch(:application) do
@@ -83,7 +75,7 @@ namespace :deploy do
   # ––––––––––––––––––
 
   task :publishing do
-    logger.info '<DEPLOY> <PUBLISHING> Restarting the app...'
+    logger.info 'Restarting the app...'
 
     on roles :app do
       as fetch(:application) do
@@ -100,7 +92,7 @@ namespace :deploy do
   # ––––––––––––––––––––––––––
 
   task :finishing do
-    logger.info '<DEPLOY> <FINISHING> Persisting the deploy time...'
+    logger.info 'Persisting the deploy time...'
 
     on roles :app do
       as fetch(:application) do
@@ -113,12 +105,11 @@ namespace :deploy do
   end
 
   task :finished do
-    logger.info '<DEPLOY> <FINISHED> Congratulations! ¯\_(ツ)_/¯'
+    logger.info 'Congratulations! ¯\_(ツ)_/¯'
   end
 
   task :failed do
-    logger.info '<DEPLOY> <FAILED> Oh no, the deployment failed'
-    puts
+    logger.info 'Oh no, the deployment failed'
   end
 
 end

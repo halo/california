@@ -1,4 +1,3 @@
-require 'logging'
 require 'pathname'
 require 'capistrano/setup'
 require 'capistrano/framework'

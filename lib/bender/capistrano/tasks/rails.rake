@@ -2,7 +2,7 @@ namespace :rails do
 
   namespace :assets do
     task :precompile do
-      logger.info '<RAILS> <ASSETS> <PRECOMPILE> Precompiling assets on all web servers...'
+      logger.info 'Precompiling assets on all web servers...'
 
       on roles :web_server do
         as fetch(:application) do
@@ -16,7 +16,7 @@ namespace :rails do
 
   task :migrate do
     on primary :migrator do
-      logger.info '<RAILS> <MIGRATE> Migrating the database...'
+      logger.info 'Migrating the database...'
 
       as fetch(:application) do
         if fetch(:migrate)
