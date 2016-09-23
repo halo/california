@@ -1,3 +1,10 @@
+## 0.2.0
+
+Improvements:
+
+* Nicer logging output (using Airbrussh)
+* Rubocop compatibility
+
 ## 0.1.0
 
 Features:
