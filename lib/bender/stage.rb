@@ -23,8 +23,10 @@ if fetch(:rails_env)
   raise 'Please refrain from setting the :rails_env parameter. We use :rack_env instead.'
 end
 
-# We always derive the environment from the stage.
-set :rack_env, fetch(:stage).to_s.gsub(/\d/, '')
+# We derive the environment from the stage name.
+set :rack_env, 'production' if fetch(:stage).to_s.include?('production')
+set :rack_env, 'staging' if fetch(:stage).to_s.include?('staging')
+set :rack_env, 'test' if fetch(:stage).to_s.include?('test')
 
 # Rack environment sanity check.
 unless %w[test staging production].include? fetch(:rack_env)

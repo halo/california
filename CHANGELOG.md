@@ -1,3 +1,9 @@
+## 0.3.1
+
+Changes:
+
+* Deriving the rack environment expects the word "production", "staging", or "test" in the stage name
+
 ## 0.3.0
 
 Changes:
