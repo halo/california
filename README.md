@@ -15,7 +15,7 @@ Create a new repository with a Gemfile like this and run `bundle install` to get
 # Content of Gemfile
 source 'https://rubygems.org'
 
-gem 'california', github: 'halo/california'
+gem 'california'
 ```
 
 Then run the generator for creating your first app you may want to deploy.
