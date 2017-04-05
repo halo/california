@@ -64,7 +64,8 @@ namespace :deploy do
         within fetch(:deploy_to) do
 
           # Running Bundler.
-          execute :bundle, :install, '--deployment', '--quiet', '--without', 'development', 'test'
+          core_count = capture(:nproc).chomp
+          execute :bundle, :install, '--deployment', '--quiet', '--without', 'development', 'test', '--jobs', core_count
         end
       end
     end

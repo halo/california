@@ -3,6 +3,7 @@
 Changes:
 
 * Use `git checkout --force origin/branch` instead of `git pull`. It's more robust against local changes on the server.
+* Bundle in parallel using all cores (requires `nproc` on your server, which ubuntu has by default)
 
 ## 0.2.0
 
