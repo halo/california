@@ -2,7 +2,7 @@
 set :stage, File.basename(__FILE__, '.rb')
 
 # Loading defaults.
-load 'bender/stage.rb'
+load 'california/stage.rb'
 
 # You need to define at least one server.
 # The one with the role "migrator" will be entitled to run migrations:

@@ -1,3 +1,9 @@
+## 0.4.0
+
+Quite a notable change:
+
+* Renamed `bender` to `california` so as to publish it on rubygems.org
+
 ## 0.3.1
 
 Changes:

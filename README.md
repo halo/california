@@ -1,8 +1,8 @@
-## Bender - Capistrano 3 for dummies
+## California - Capistrano 3 for dummies
 
-[![Build Status](https://travis-ci.org/halo/bender.svg?branch=master)](https://travis-ci.org/halo/bender)
+[![Build Status](https://travis-ci.org/halo/california.svg?branch=master)](https://travis-ci.org/halo/california)
 
-![screenshot](https://raw.github.com/halo/bender/master/doc/bender.png)
+![screenshot](https://raw.github.com/halo/california/master/doc/california.png)
 
 ### Requirements
 
@@ -11,13 +11,13 @@
 
 ### Installation
 
-Create a new repository with a Gemfile like this and run `bundle install` to get the bender gem.
+Create a new repository with a Gemfile like this and run `bundle install` to get the california gem.
 
 ```ruby
 # Content of Gemfile
 source 'https://rubygems.org'
 
-gem 'bender', github: 'halo/bender'
+gem 'california', github: 'halo/california'
 ```
 
 Then run the generator for creating your first app you may want to deploy.
@@ -25,7 +25,7 @@ Let's say the name of the app is "hello_world".
 
 ```ruby
 # Inside the directory of your newly created repository
-bundle exec bender generate hello_world
+bundle exec california generate hello_world
 ```
 
 Modify `hello_world/deploy/production.rb` (or whichever stages you have) and define which servers you want to deploy to.
@@ -56,4 +56,4 @@ bundle exec cap production deploy migrate=true
 
 ### Copyright
 
-MIT 2016 halo. See [MIT-LICENSE](http://github.com/halo/bender/blob/master/MIT-LICENSE).
+MIT 2016 halo. See [MIT-LICENSE](http://github.com/halo/california/blob/master/MIT-LICENSE).

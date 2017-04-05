@@ -1,6 +1,6 @@
 require 'thor'
 
-module Bender
+module California
   class Cli < Thor
     include Thor::Actions
 

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    bender (0.3.1)
+    california (0.4.0)
       capistrano (~> 3.8)
       thor (~> 0.19)
 
@@ -93,7 +93,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bender!
+  california!
   guard-rspec
   rb-fsevent
   rspec
