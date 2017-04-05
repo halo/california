@@ -13,8 +13,8 @@ Gem::Specification.new do |spec|
   spec.files       = Dir['Rakefile', '{bin,lib,man,test,spec}/**/*', 'README*', 'LICENSE*'] & `git ls-files -z`.split("\0")
   spec.executables = ['bender']
 
-  spec.add_dependency 'capistrano', '~> 3.6.1'
-  spec.add_dependency 'thor', '~> 0.15'
+  spec.add_dependency 'capistrano', '~> 3.8'
+  spec.add_dependency 'thor', '~> 0.19'
 
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'guard-rspec'
