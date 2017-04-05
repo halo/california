@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    california (0.4.0)
+    california (0.4.1)
       capistrano (~> 3.8)
       thor (~> 0.19)
 

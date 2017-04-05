@@ -1,3 +1,9 @@
+## 0.4.1
+
+Improvements:
+
+* You can now load `california/stage` instead of `california/stage.rb` (convenience)
+
 ## 0.4.0
 
 Quite a notable change:
