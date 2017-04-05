@@ -41,7 +41,7 @@ namespace :deploy do
   desc 'Disallow robots unless deploying to production.'
   task :disallow_robots do
     next if fetch(:stage).to_s == 'production'
-    logger.info "<DEPLOY> <DISALLOW_ROBOTS> robots.txt for #{fetch(:stage)}..."
+    logger.info "Overriding robots.txt for environment #{fetch(:stage)}..."
 
     on roles :app do
       as fetch(:application) do

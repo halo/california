@@ -27,7 +27,7 @@ end
 set :rack_env, fetch(:stage).to_s.gsub(/\d/, '')
 
 # Rack environment sanity check.
-unless %w(test staging production).include? fetch(:rack_env)
+unless %w[test staging production].include? fetch(:rack_env)
   raise "#{fetch(:rack_env).inspect} does not seem to be a valid Rails environment."
 end
 
@@ -37,7 +37,7 @@ fetch(:default_env)[:rack_env] = fetch(:rack_env)
 # Unlike "normal" capistrano, we deploy right into the repository.
 set :deploy_to, "/mnt/apps/#{fetch(:application)}/repository"
 # Alias for cap task that use release_path
-set :release_path, -> { fetch(:deploy_to) }
+set(:release_path, -> { fetch(:deploy_to) })
 
 # The branch can be set in various ways, default is master.
 set :branch, ENV['branch'] || ENV['BRANCH'] || fetch(:branch, :master)
@@ -57,9 +57,11 @@ if in_production && non_master_branch && ENV['i_dont_know_what_im_doing'] != 'tr
   raise message
 end
 
-# What would life be without monkey patches...
 module SSHKit
   class Command
+    # Define $HOME to be in /mnt/apps/USERNAME
+    # Add ~/bin to $PATH
+    # Source any existing .bash_profile in the home directory
     def user
       return yield unless options[:user]
       %(sudo -u #{options[:user]} #{environment_string} -- bash -c '\
@@ -73,13 +75,13 @@ module SSHKit
   class CommandMap
     def defaults
       Hash.new do |hash, command|
+        # Avoid using `/usr/bin/env` at all
         hash[command] = command.to_s
       end
     end
   end
 end
 
-# The more monkeys the better...
 module Capistrano
   class Configuration
     class Server < SSHKit::Host
