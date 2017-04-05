@@ -1,8 +1,6 @@
-## California - Capistrano 3 for dummies
+## Opinionated capistrano deployment for dummies Edit
 
 [![Build Status](https://travis-ci.org/halo/california.svg?branch=master)](https://travis-ci.org/halo/california)
-
-![screenshot](https://raw.github.com/halo/california/master/doc/california.png)
 
 ### Requirements
 
