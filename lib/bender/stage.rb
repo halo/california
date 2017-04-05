@@ -33,6 +33,7 @@ end
 
 # Making sure we set the right environment in every context.
 fetch(:default_env)[:rack_env] = fetch(:rack_env)
+fetch(:default_env)[:rails_env] = fetch(:rack_env)
 
 # Unlike "normal" capistrano, we deploy right into the repository.
 set :deploy_to, "/mnt/apps/#{fetch(:application)}/repository"

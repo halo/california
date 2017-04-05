@@ -4,6 +4,7 @@ Changes:
 
 * Use `git checkout --force origin/branch` instead of `git pull`. It's more robust against local changes on the server.
 * Bundle in parallel using all cores (requires `nproc` on your server, which ubuntu has by default)
+* Ensure that RAILS_ENV equals RACK_ENV for wider compatibility
 
 ## 0.2.0
 
