@@ -16,11 +16,10 @@ namespace :rails do
 
   task :migrate do
     on primary :migrator do
-      logger.info 'Migrating the database...'
-
       as fetch(:application) do
         if fetch(:migrate)
           within fetch(:deploy_to) do
+            logger.info 'Migrating the database...'
             execute :bundle, :exec, :rake, 'db:migrate'
           end
         else
