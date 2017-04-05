@@ -1,1 +1,2 @@
+# You can run `cap` commands in directories that have a `Capfile`.
 require 'california/capfile'

@@ -1,8 +1,9 @@
-# The stage name is derived from this very filename.
+# The stage name is derived from this very filename,
+# which should include "production", "staging", or "test" in its name.
 set :stage, File.basename(__FILE__, '.rb')
 
-# Loading defaults.
-load 'california/stage.rb'
+# Loading task defaults.
+load 'california/stage'
 
 # You need to define at least one server.
 # The one with the role "migrator" will be entitled to run migrations:

@@ -1,0 +1,2 @@
+# Wrapper so you can call `load 'california/stage` without `.rb` extension
+load 'california/stage.rb'
