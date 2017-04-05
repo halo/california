@@ -1,6 +1,6 @@
 # The basic capistrano framework provides us with a certain order of tasks when you run "rake deploy".
 # See https://github.com/capistrano/capistrano/blob/master/lib/capistrano/tasks/framework.rake
-# In the code below we hook in into those tasks specified in that predefined deploy framework.
+# In the code below we hook in into those tasks provided by the deploy framework.
 
 namespace :deploy do
 
@@ -21,8 +21,7 @@ namespace :deploy do
           # Updating the code.
           execute :git, :reset, '--hard'
           execute :git, :fetch, :origin
-          execute :git, :checkout, fetch(:branch)
-          execute :git, :pull, :origin, fetch(:branch)
+          execute :git, :checkout, '--force', "origin/#{fetch(:branch)}"
 
           # The update went well so let's persist the revision change.
           # Note: We use ruby because there is no bash command that can write to files *without I/O redirection*.

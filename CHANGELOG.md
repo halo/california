@@ -1,3 +1,9 @@
+## 0.3.0
+
+Changes:
+
+* Use `git checkout --force origin/branch` instead of `git pull`. It's more robust against local changes on the server.
+
 ## 0.2.0
 
 Improvements:
