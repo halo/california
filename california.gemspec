@@ -10,6 +10,7 @@ Gem::Specification.new do |spec|
   spec.homepage    = 'https://github.com/halo/california'
 
   spec.files       = Dir['Rakefile', '{bin,lib,man,test,spec}/**/*', 'README*', 'LICENSE*'] & `git ls-files -z`.split("\0")
+  spec.licenses      = ['MIT']
   spec.executables = ['california']
 
   spec.add_dependency 'capistrano', '~> 3.11'

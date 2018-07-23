@@ -16,7 +16,7 @@ California is an opinionated out-of-the-box, best-practice configuration that ai
 * Every app has its own user on the server and when running commands during deploy, [load the `.bash_profile` of that user](https://github.com/halo/california/blob/master/lib/california/stage.rb#L65-L67)
 
 * Nicer logging output so that you *really* know at which stage of the deploy you are (update code, run bundler, restart)
-* 
+
 ### Requirements
 
 * Ruby >= 2.0
