@@ -1,3 +1,9 @@
+## 1.1.0
+
+Changes:
+
+* Passenger is only restarted on web servers.
+
 ## 1.0.1
 
 Improvements:
