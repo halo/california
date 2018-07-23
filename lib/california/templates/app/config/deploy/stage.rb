@@ -27,4 +27,4 @@ load 'california/stage'
 # Important: Now you need to define AT LEAST ONE server.
 
 # Example: The one with the role "migrator" will be entitled to run migrations:
-# server '203.0.113.19', roles: %w{ all app web_server migrator }
+# server '203.0.113.19', roles: %w[all app web_server migrator]

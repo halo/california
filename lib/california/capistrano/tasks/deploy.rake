@@ -82,21 +82,22 @@ namespace :deploy do
   task :publishing do
     if fetch(:skip_restart)
       logger.info 'Skipping Restart...'
-    else
 
+    elsif fetch(:restart_strategy) == 'restart.txt'
+      logger.info 'Restarting the app via restart.txt...'
       on roles :app do
         as fetch(:application) do
-
-          if fetch(:restart_strategy) == 'restart.txt'
-            logger.info 'Restarting the app via restart.txt...'
-            within File.join(fetch(:deploy_to), 'tmp') do
-              execute :touch, 'restart.txt'
-            end
-
-          else
-            logger.info 'Restarting the app via passenger-config...'
-            execute 'passenger-config', 'restart-app', fetch(:deploy_to)
+          within File.join(fetch(:deploy_to), 'tmp') do
+            execute :touch, 'restart.txt'
           end
+        end
+      end
+
+    else
+      logger.info 'Restarting app on web servers via passenger-config...'
+      on roles :web_server do
+        as fetch(:application) do
+          execute 'passenger-config', 'restart-app', fetch(:deploy_to)
         end
       end
     end
