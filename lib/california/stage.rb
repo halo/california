@@ -6,12 +6,11 @@ module CaliforniaLogger
   def self.logger!
     instance = ::Logger.new STDOUT
     instance.formatter = proc do |_, _, _, msg|
-      line = '–' * (msg.size + 2)
+      line = '-' * (msg.size + 2)
       [nil, line, " #{msg}", line, nil].join("\n") + "\n"
     end
     instance
   end
-
 end
 
 def logger
@@ -19,9 +18,7 @@ def logger
 end
 
 # Rails environment sanity check.
-if fetch(:rails_env)
-  raise 'Please refrain from setting the :rails_env parameter. We use :rack_env instead.'
-end
+raise 'Please refrain from setting the :rails_env parameter. We use :rack_env instead.' if fetch(:rails_env)
 
 # We derive the environment from the stage name.
 set :rack_env, 'production' if fetch(:stage).to_s.include?('production')
@@ -89,7 +86,6 @@ module Capistrano
   class Configuration
     class Server < SSHKit::Host
       class Properties
-
         # Making the properties indifferent to symbol/string keys.
         def fetch(key)
           @properties[key] || @properties[key.to_s]

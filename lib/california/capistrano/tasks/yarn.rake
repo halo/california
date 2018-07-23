@@ -1,5 +1,4 @@
 namespace :yarn do
-
   task :install do
     logger.info 'Installing yarn dependencies...'
 
@@ -11,5 +10,4 @@ namespace :yarn do
       end
     end
   end
-
 end

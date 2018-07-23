@@ -1,5 +1,4 @@
 namespace :rails do
-
   namespace :assets do
     task :precompile do
       logger.info 'Precompiling assets on all web servers...'
@@ -28,5 +27,4 @@ namespace :rails do
       end
     end
   end
-
 end

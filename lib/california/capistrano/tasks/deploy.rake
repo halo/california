@@ -3,10 +3,9 @@
 # In the code below we hook in into those tasks provided by the deploy framework.
 
 namespace :deploy do
-
-  # –––––––––––––––––
+  # -----------------
   # Updating the code
-  # –––––––––––––––––
+  # -----------------
 
   task :updating do
     logger.info 'Updating the repository...'
@@ -14,7 +13,6 @@ namespace :deploy do
     on roles :app do
       as fetch(:application) do
         within fetch(:deploy_to) do
-
           # Remembering which revision we had before making any changes.
           set :previous_revision, capture(:git, 'rev-parse', 'HEAD')
 
@@ -34,9 +32,9 @@ namespace :deploy do
     end
   end
 
-  # ––––––––––––––
+  # --------------
   # Set robots.txt
-  # ––––––––––––––
+  # --------------
 
   desc 'Disallow robots unless deploying to production.'
   task :disallow_robots do
@@ -52,9 +50,9 @@ namespace :deploy do
     end
   end
 
-  # –––––––––––––––
+  # ---------------
   # Running Bundler
-  # –––––––––––––––
+  # ---------------
 
   task :updated do
     if fetch(:skip_bundler)
@@ -65,7 +63,6 @@ namespace :deploy do
       on roles :app do
         as fetch(:application) do
           within fetch(:deploy_to) do
-
             # Running Bundler.
             core_count = capture(:nproc).chomp
             execute :bundle, :install, '--deployment', '--quiet', '--without', 'development', 'test', '--jobs', core_count
@@ -75,9 +72,9 @@ namespace :deploy do
     end
   end
 
-  # ––––––––––––––––––
+  # ------------------
   # Restarting the app
-  # ––––––––––––––––––
+  # ------------------
 
   task :publishing do
     if fetch(:skip_restart)
@@ -103,9 +100,9 @@ namespace :deploy do
     end
   end
 
-  # ––––––––––––––––––––––––––
+  # --------------------------
   # Persisting the deploy time
-  # ––––––––––––––––––––––––––
+  # --------------------------
 
   task :finishing do
     logger.info 'Persisting the deploy time...'
@@ -113,7 +110,6 @@ namespace :deploy do
     on roles :app do
       as fetch(:application) do
         within fetch(:deploy_to) do
-
           execute :ruby, '-e', %("File.write :DEPLOYED_AT.to_s, Time.now")
         end
       end
@@ -127,5 +123,4 @@ namespace :deploy do
   task :failed do
     logger.info 'Oh no, the deployment failed'
   end
-
 end
