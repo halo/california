@@ -1,4 +1,6 @@
-Copyright 2015 halo
+Copyright (c) 2018 halo https://github.com/halo/california
+
+MIT License
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

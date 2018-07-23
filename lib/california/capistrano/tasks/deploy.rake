@@ -57,15 +57,19 @@ namespace :deploy do
   # –––––––––––––––
 
   task :updated do
-    logger.info 'Running Bundler...'
+    if fetch(:skip_bundler)
+      logger.info 'Skipping Bundler...'
+    else
+      logger.info 'Running Bundler...'
 
-    on roles :app do
-      as fetch(:application) do
-        within fetch(:deploy_to) do
+      on roles :app do
+        as fetch(:application) do
+          within fetch(:deploy_to) do
 
-          # Running Bundler.
-          core_count = capture(:nproc).chomp
-          execute :bundle, :install, '--deployment', '--quiet', '--without', 'development', 'test', '--jobs', core_count
+            # Running Bundler.
+            core_count = capture(:nproc).chomp
+            execute :bundle, :install, '--deployment', '--quiet', '--without', 'development', 'test', '--jobs', core_count
+          end
         end
       end
     end
@@ -76,13 +80,23 @@ namespace :deploy do
   # ––––––––––––––––––
 
   task :publishing do
-    logger.info 'Restarting the app...'
+    if fetch(:skip_restart)
+      logger.info 'Skipping Restart...'
+    else
 
-    on roles :app do
-      as fetch(:application) do
-        within File.join(fetch(:deploy_to), 'tmp') do
+      on roles :app do
+        as fetch(:application) do
 
-          execute :touch, 'restart.txt'
+          if fetch(:restart_strategy) == 'restart.txt'
+            logger.info 'Restarting the app via restart.txt...'
+            within File.join(fetch(:deploy_to), 'tmp') do
+              execute :touch, 'restart.txt'
+            end
+
+          else
+            logger.info 'Restarting the app via passenger-config...'
+            execute 'passenger-config', 'restart-app', fetch(:deploy_to)
+          end
         end
       end
     end

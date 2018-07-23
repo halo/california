@@ -1,7 +1,22 @@
-## Opinionated capistrano deployment for dummies Edit
+## Opinionated Capistrano deployment for dummies
 
+[![Version](https://img.shields.io/gem/v/california.svg?style=flat)](https://rubygems.org/gems/california)
 [![Build Status](https://travis-ci.org/halo/california.svg?branch=master)](https://travis-ci.org/halo/california)
 
+When using [Capistrano](https://github.com/capistrano/capistrano) to deploy an application to a server, it runs [all this stuff](https://github.com/capistrano/capistrano/blob/master/lib/capistrano/tasks/deploy.rake) creating a new symlink for every release, cleans up old ones, etc..
+
+California is an opinionated out-of-the-box, best-practice configuration that aims to make things a little bit simpler for both beginners and advanced users.
+
+### Design Goals
+
+* Don't separate releases in different directories. Just [perform a simple checkout](https://github.com/halo/california/blob/master/lib/california/capistrano/tasks/deploy.rake#L21-L24) that updates the code in place.
+
+* Introduce convention over configuration, e.g. as to [where the applications are deployed](https://github.com/halo/california/blob/master/lib/california/stage.rb#L40-L42).
+
+* Every app has its own user on the server and when running commands during deploy, [load the `.bash_profile` of that user](https://github.com/halo/california/blob/master/lib/california/stage.rb#L65-L67)
+
+* Nicer logging output so that you *really* know at which stage of the deploy you are (update code, run bundler, restart)
+* 
 ### Requirements
 
 * Ruby >= 2.0
@@ -26,17 +41,18 @@ Let's say the name of the app is "hello_world".
 bundle exec california generate hello_world
 ```
 
-Modify `hello_world/deploy/production.rb` (or whichever stages you have) and define which servers you want to deploy to.
+Follow the instructions in `hello_world/deploy/production.rb` (or whichever stages you have) and define which servers you want to deploy to.
 
 ### Server preparation
 
-When deploying your `hello_world` app, it is assumed that you can ssh into the server with the user `hello_world` and that the repository has been cloned to `/mnt/apps/hello_world/repository`.
+When deploying your `hello_world` app, it is assumed that you can ssh into the server with the username `hello_world` and that the repository has been cloned to `/mnt/apps/hello_world/repository`.
 
-Any additional environment variables needed to configure your application should be located in a file called `/mnt/envs/hello_world`.
+The reason for this directory is that if you are on AWS, `/mnt` is the default path for permanent storage. If you're not on AWS, you may just ride along and follow the convention.
+
+If you configure your application via environment variables, you can add them in a file called `/mnt/envs/hello_world`.
 
 ```bash
 # Example of content of /mnt/envs/hello_world
-SECRET_TOKEN="abcdef"
 DATABASE_URL="postgres://db.example.com"
 ```
 
@@ -54,4 +70,4 @@ bundle exec cap production deploy migrate=true
 
 ### Copyright
 
-MIT 2016 halo. See [MIT-LICENSE](http://github.com/halo/california/blob/master/MIT-LICENSE).
+MIT 2018 halo. See [LICENSE.md](http://github.com/halo/california/blob/master/LICENSE.md).

@@ -1,3 +1,20 @@
+## 1.0.0
+
+Breaking changes:
+
+* Restart is not performed with `touch tmp/restart.txt` but with `passenger-config restart path/to/app`
+  To retain the old behavior, use `set :restart_strategy, 'restart.txt'` in your stage.
+
+Improvements:
+
+* You can now skip `bundle install` with `set :skip_bundler, true`
+* You can now skip the application restart with `set :skip_restart, true`
+
+Changes:
+
+* Updated capistrano from `~> 3.8` to `~> 3.11`, no breaking changes
+* Updated thor (used for creating templates) from `~> 0.16` to `~> 0.20`, no breaking changes
+
 ## 0.4.1
 
 Improvements:

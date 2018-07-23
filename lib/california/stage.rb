@@ -1,4 +1,4 @@
-module BenderLogger
+module CaliforniaLogger
   def self.logger
     @logger ||= logger!
   end
@@ -15,7 +15,7 @@ module BenderLogger
 end
 
 def logger
-  BenderLogger.logger
+  CaliforniaLogger.logger
 end
 
 # Rails environment sanity check.
