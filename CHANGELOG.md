@@ -1,3 +1,9 @@
+## 1.0.1
+
+Improvements:
+
+* Added optional `yarn install` task
+
 ## 1.0.0
 
 Breaking changes:

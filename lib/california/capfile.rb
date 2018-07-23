@@ -8,3 +8,4 @@ install_plugin Capistrano::SCM::Plugin
 
 load 'california/capistrano/tasks/deploy.rake'
 load 'california/capistrano/tasks/rails.rake'
+load 'california/capistrano/tasks/yarn.rake'
